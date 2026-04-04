@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renert Business Society — Empowering Future Business Leaders</title>
+    <meta name="description" content="Renert Business Society (RBS) is a high school business club at Renert School, Calgary, AB. Join us to explore entrepreneurship, investments, and leadership.">
+    <meta property="og:title" content="Renert Business Society">
+    <meta property="og:description" content="Empowering the next generation of business leaders at Renert School, Calgary, Alberta.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_CA">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ========== CSS RESET & VARIABLES ========== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #1e3a5f;
+            --primary-light: #2a5080;
+            --accent: #f59e0b;
+            --accent-hover: #d97706;
+            --bg: #ffffff;
+            --bg-alt: #f8fafc;
+            --bg-card: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+            --shadow-lg: 0 4px 20px rgba(0,0,0,0.08), 0 8px 32px rgba(0,0,0,0.04);
+            --radius: 12px;
+            --nav-height: 72px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-light: #60a5fa;
+            --bg: #0f172a;
+            --bg-alt: #1e293b;
+            --bg-card: #1e293b;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.2);
+            --shadow-lg: 0 4px 20px rgba(0,0,0,0.3), 0 8px 32px rgba(0,0,0,0.2);
+        }
+
+        html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: background var(--transition), color var(--transition);
+            overflow-x: hidden;
+        }
+
+        /* ========== ANIMATIONS ========== */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========== NAVBAR ========== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            transition: background var(--transition), border-color var(--transition), box-shadow var(--transition);
+        }
+        .navbar.scrolled {
+            box-shadow: var(--shadow);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 800;
+            font-size: 1.15rem;
+        }
+        .nav-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.85rem;
+            color: #fff;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 8px 14px;
+            border-radius: 8px;
+            transition: color var(--transition), background var(--transition);
+        }
+        .nav-links a:hover {
+            color: var(--text);
+            background: var(--bg-alt);
+        }
+        .theme-toggle {
+            background: var(--bg-alt);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background var(--transition), border-color var(--transition);
+            margin-left: 8px;
+        }
+        .theme-toggle:hover { background: var(--border); }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: transform var(--transition), opacity var(--transition);
+        }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links {
+                position: fixed;
+                top: var(--nav-height);
+                left: 0;
+                right: 0;
+                background: var(--bg);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                padding: 16px 24px;
+                gap: 4px;
+                transform: translateY(-120%);
+                transition: transform var(--transition);
+                z-index: 999;
+            }
+            .nav-links.open { transform: translateY(0); }
+            .nav-links a { padding: 12px 14px; width: 100%; }
+        }
+
+        /* ========== HERO ========== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: calc(var(--nav-height) + 40px) 24px 60px;
+            background: linear-gradient(135deg, var(--bg) 0%, var(--bg-alt) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(245,158,11,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(30,58,95,0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .hero-content { position: relative; max-width: 720px; }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 8px 18px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+        }
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+        .hero h1 .accent-text { color: var(--accent); }
+        .hero .subtitle {
+            font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            font-weight: 400;
+        }
+        .hero .location {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 36px;
+        }
+        .hero-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all var(--transition);
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+        }
+        .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(245,158,11,0.3); }
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover { background: var(--bg-alt); transform: translateY(-2px); }
+
+        /* ========== SECTIONS ========== */
+        section { padding: 100px 24px; }
+        .section-alt { background: var(--bg-alt); }
+        .container { max-width: 1100px; margin: 0 auto; }
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+        .section-label {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+        .section-header h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+        .section-header p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ========== ABOUT ========== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: start;
+            margin-bottom: 64px;
+        }
+        .about-text h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .about-text p {
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, #1e3a5f08, #f59e0b0a);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            border-radius: 0 var(--radius) var(--radius) 0;
+            padding: 20px 24px;
+            margin-top: 8px;
+        }
+        [data-theme="dark"] .highlight-box {
+            background: linear-gradient(135deg, #3b82f60a, #f59e0b08);
+        }
+        .highlight-box p {
+            font-size: 0.95rem;
+            font-style: italic;
+            color: var(--text-muted);
+            margin: 0;
+        }
+        .pillars {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .pillar {
+            text-align: center;
+            padding: 32px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+        .pillar:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .pillar-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--bg-alt);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 16px;
+        }
+        .pillar h4 { font-weight: 700; margin-bottom: 8px; }
+        .pillar p { font-size: 0.88rem; color: var(--text-muted); }
+
+        @media (max-width: 768px) {
+            .about-grid { grid-template-columns: 1fr; gap: 32px; }
+            .pillars { grid-template-columns: 1fr; }
+        }
+
+        /* ========== ACTIVITIES ========== */
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        .activity-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+        .activity-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .activity-icon {
+            font-size: 1.8rem;
+            margin-bottom: 14px;
+        }
+        .activity-card h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .activity-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* ========== COMPETITIONS ========== */
+        .comp-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+        .comp-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+        .comp-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .comp-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), #1e3a5f);
+        }
+        [data-theme="dark"] .comp-card::before {
+            background: linear-gradient(90deg, var(--accent), #3b82f6);
+        }
+        .comp-card h4 { font-weight: 700; margin-bottom: 6px; }
+        .comp-card .comp-period {
+            font-size: 0.82rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .comp-card p { font-size: 0.88rem; color: var(--text-muted); }
+
+        /* ========== TEAM ========== */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 48px;
+        }
+        .team-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            text-align: center;
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+        .team-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .team-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e3a5f, var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 1.4rem;
+            color: #fff;
+            font-weight: 700;
+        }
+        .team-card h4 { font-weight: 700; margin-bottom: 4px; }
+        .team-card .role {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .team-card p { font-size: 0.85rem; color: var(--text-muted); }
+
+        .positions-banner {
+            background: linear-gradient(135deg, #1e3a5f, #2a5080);
+            border-radius: var(--radius);
+            padding: 40px;
+            text-align: center;
+            color: #fff;
+        }
+        [data-theme="dark"] .positions-banner {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            border: 1px solid var(--border);
+        }
+        .positions-banner h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        .positions-banner p {
+            opacity: 0.85;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        .position-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .position-tag {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            padding: 8px 18px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* ========== JOIN ========== */
+        .join-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+        .join-reasons h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .join-reasons ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .join-reasons li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+        .join-reasons li .check {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            background: #22c55e20;
+            color: #22c55e;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        .join-cta {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px;
+            text-align: center;
+        }
+        .join-cta h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .join-cta p {
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            font-size: 0.95rem;
+        }
+        .join-cta .btn { width: 100%; justify-content: center; margin-bottom: 16px; }
+        .join-cta .email-link {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .join-cta .email-link a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .join-cta .email-link a:hover { text-decoration: underline; }
+
+        @media (max-width: 768px) {
+            .join-wrapper { grid-template-columns: 1fr; }
+        }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            background: var(--bg-alt);
+            border-top: 1px solid var(--border);
+            padding: 48px 24px;
+            text-align: center;
+        }
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text);
+        }
+        .footer p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .footer-social {
+            margin-top: 16px;
+        }
+        .footer-social a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color var(--transition);
+        }
+        .footer-social a:hover { color: var(--accent); }
+        .footer-built {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
+        /* ========== UTILITIES ========== */
+        @media (max-width: 480px) {
+            section { padding: 72px 16px; }
+            .activities-grid { grid-template-columns: 1fr; }
+            .comp-list { grid-template-columns: 1fr; }
+            .team-grid { grid-template-columns: 1fr; }
+            .positions-banner { padding: 28px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="#" class="nav-logo">
+            <div class="nav-logo-icon">RBS</div>
+            <span>Renert Business Society</span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#about">About</a></li>
+            <li><a href="#activities">Activities</a></li>
+            <li><a href="#competitions">Competitions</a></li>
+            <li><a href="#team">Team</a></li>
+            <li><a href="#join">Join Us</a></li>
+        </ul>
+        <div style="display:flex;align-items:center;gap:4px;">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section class="hero" id="hero">
+    <div class="hero-content">
+        <div class="hero-badge fade-up">
+            <span class="dot"></span>
+            Founded 2026
+        </div>
+        <h1 class="fade-up">Renert<br><span class="accent-text">Business Society</span></h1>
+        <p class="subtitle fade-up">Empowering the next generation of business leaders</p>
+        <p class="location fade-up">📍 Renert School, Calgary, AB</p>
+        <div class="hero-buttons fade-up">
+            <a href="#join" class="btn btn-primary">Join Us →</a>
+            <a href="#about" class="btn btn-secondary">Learn More</a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== ABOUT ========== -->
+<section id="about">
+    <div class="container">
+        <div class="section-header fade-up">
+            <span class="section-label">About Us</span>
+            <h2>Bridging Classroom & Business</h2>
+            <p>Calgary has almost no high school business clubs. We're changing that.</p>
+        </div>
+        <div class="about-grid">
+            <div class="about-text fade-up">
+                <h3>Our Mission</h3>
+                <p>The Renert Business Society bridges the gap between classroom learning and the real world of business. We give students hands-on experience with investing, entrepreneurship, marketing, and leadership — skills that matter beyond the textbook.</p>
+                <div class="highlight-box">
+                    <p>"We believe business education should be accessible and exciting for every Calgary high school student."</p>
+                </div>
+            </div>
+            <div class="about-text fade-up">
+                <h3>Our Vision</h3>
+                <p>We're building a community where students can explore business ideas, compete on national and international stages, and develop the confidence to lead. RBS is brand new — and that means founding members get to shape everything from the ground up.</p>
+                <p>Whether you're into finance, marketing, tech, or social enterprise, there's a place for you here.</p>
+            </div>
+        </div>
+        <div class="pillars fade-up">
+            <div class="pillar">
+                <div class="pillar-icon">🎯</div>
+                <h4>Leadership</h4>
+                <p>Develop real leadership skills through events, competitions, and team projects.</p>
+            </div>
+            <div class="pillar">
+                <div class="pillar-icon">💡</div>
+                <h4>Innovation</h4>
+                <p>Turn ideas into action with pitch events, simulated markets, and student-built tools.</p>
+            </div>
+            <div class="pillar">
+                <div class="pillar-icon">🤝</div>
+                <h4>Community</h4>
+                <p>Build connections, help peers succeed, and give back through service projects.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== ACTIVITIES ========== -->
+<section id="activities" class="section-alt">
+    <div class="container">
+        <div class="section-header fade-up">
+            <span class="section-label">What We Do</span>
+            <h2>Activities & Programs</h2>
+            <p>From trading simulations to repair workshops — there's something for everyone.</p>
+        </div>
+        <div class="activities-grid">
+            <div class="activity-card fade-up">
+                <div class="activity-icon">📈</div>
+                <h4>Investment Competition</h4>
+                <p>Learn portfolio management through simulated trading. Compete against classmates and track your gains (or losses) in real time.</p>
+            </div>
+            <div class="activity-card fade-up">
+                <div class="activity-icon">🦈</div>
+                <h4>Shark Tank Events</h4>
+                <p>Pitch your business ideas to a panel of judges. Get feedback, refine your concept, and maybe even win funding for your startup.</p>
+            </div>
+            <div class="activity-card fade-up">
+                <div class="activity-icon">💻</div>
+                <h4>LearnAlberta Platform</h4>
+                <p>A student-built suite of learning tools designed around the Alberta curriculum. By students, for students.</p>
+            </div>
+            <div class="activity-card fade-up">
+                <div class="activity-icon">🤝</div>
+                <h4>Peer Tutoring</h4>
+                <p>Students helping students succeed. Share your strengths and learn from others in a collaborative environment.</p>
+            </div>
+            <div class="activity-card fade-up">
+                <div class="activity-icon">📊</div>
+                <h4>Market Day</h4>
+                <p>Buy, sell, and trade in our school marketplace. Experience supply, demand, and negotiation first-hand.</p>
+            </div>
+            <div class="activity-card fade-up">
+                <div class="activity-icon">🔧</div>
+                <h4>Fix It Friday</h4>
+                <p>Community repair workshops where we fix electronics, bikes, and more. Sustainability meets entrepreneurship.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== COMPETITIONS ========== -->
+<section id="competitions">
+    <div class="container">
+        <div class="section-header fade-up">
+            <span class="section-label">Compete</span>
+            <h2>Competitions</h2>
+            <p>Represent RBS on provincial, national, and international stages.</p>
+        </div>
+        <div class="comp-list">
+            <div class="comp-card fade-up">
+                <h4>Wharton Global Investment Competition</h4>
+                <div class="comp-period">September – April</div>
+                <p>One of the world's premier high school investing competitions, run by the Wharton School at UPenn.</p>
+            </div>
+            <div class="comp-card fade-up">
+                <h4>Diamond Challenge</h4>
+                <div class="comp-period">September – January</div>
+                <p>An international entrepreneurship competition for high school students hosted by the University of Delaware.</p>
+            </div>
+            <div class="comp-card fade-up">
+                <h4>FBLA — Future Business Leaders of Canada</h4>
+                <div class="comp-period">Year-round</div>
+                <p>Canada's premier business student organization with provincial and national competitions across multiple events.</p>
+            </div>
+            <div class="comp-card fade-up">
+                <h4>School Investment Competition</h4>
+                <div class="comp-period">Ongoing</div>
+                <p>Our internal simulated trading competition. Build your portfolio and see how you stack up against other RBS members.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== TEAM ========== -->
+<section id="team" class="section-alt">
+    <div class="container">
+        <div class="section-header fade-up">
+            <span class="section-label">Our Team</span>
+            <h2>Leadership</h2>
+            <p>A small but ambitious founding team — and we're looking for more.</p>
+        </div>
+        <div class="team-grid">
+            <div class="team-card fade-up">
+                <div class="team-avatar">CZ</div>
+                <h4>Cecily Zhao</h4>
+                <div class="role">Founder &amp; President</div>
+                <p>Grade 10 student with a passion for making business education accessible to all.</p>
+            </div>
+            <div class="team-card fade-up">
+                <div class="team-avatar">C</div>
+                <h4>Chris</h4>
+                <div class="role">Faculty Advisor</div>
+                <p>Entrepreneurship Teacher at Renert School. Guiding RBS with real-world business expertise.</p>
+            </div>
+            <div class="team-card fade-up">
+                <div class="team-avatar" style="background: linear-gradient(135deg, var(--accent), #d97706);">?</div>
+                <h4>You?</h4>
+                <div class="role">Founding Member</div>
+                <p>We're building this from scratch. Your ideas and energy will shape what RBS becomes.</p>
+            </div>
+        </div>
+        <div class="positions-banner fade-up">
+            <h3>🚀 Founding Members Wanted!</h3>
+            <p>This is your chance to build something from the ground up. We're looking for passionate students to fill leadership roles:</p>
+            <div class="position-tags">
+                <span class="position-tag">VP Finance</span>
+                <span class="position-tag">VP Marketing</span>
+                <span class="position-tag">VP Events</span>
+                <span class="position-tag">Secretary</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== JOIN ========== -->
+<section id="join">
+    <div class="container">
+        <div class="section-header fade-up">
+            <span class="section-label">Get Involved</span>
+            <h2>Join Us</h2>
+            <p>No experience needed — just curiosity and drive.</p>
+        </div>
+        <div class="join-wrapper">
+            <div class="join-reasons fade-up">
+                <h3>Why join RBS?</h3>
+                <ul>
+                    <li><span class="check">✓</span> Build real leadership experience for university applications</li>
+                    <li><span class="check">✓</span> Compete in national and international business competitions</li>
+                    <li><span class="check">✓</span> Network with like-minded students and mentors</li>
+                    <li><span class="check">✓</span> Strengthen your resume and college applications</li>
+                    <li><span class="check">✓</span> Learn skills that aren't taught in regular classes</li>
+                    <li><span class="check">✓</span> Be a founding member of something new and exciting</li>
+                </ul>
+            </div>
+            <div class="join-cta fade-up">
+                <h3>Ready to join?</h3>
+                <p>Fill out our interest form and we'll be in touch. It takes less than 2 minutes.</p>
+                <a href="#" class="btn btn-primary">📝 Sign Up Form</a>
+                <p class="email-link">Or email us at <a href="mailto:cecily.zhao@renertschool.ca">cecily.zhao@renertschool.ca</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            <div class="nav-logo-icon" style="width:28px;height:28px;font-size:0.7rem;">RBS</div>
+            Renert Business Society
+        </div>
+        <p>Renert School · 14 Royal Vista Link NW, Calgary, AB</p>
+        <p>© 2026 Renert Business Society. All rights reserved.</p>
+        <div class="footer-social">
+            <a href="https://instagram.com/renertbusiness" target="_blank" rel="noopener">📸 @renertbusiness</a>
+        </div>
+        <p class="footer-built">Built with 💡 by RBS</p>
+    </div>
+</footer>
+
+<script>
+    // ========== THEME TOGGLE ==========
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    const stored = localStorage.getItem('rbs-theme');
+    if (stored) {
+        html.setAttribute('data-theme', stored);
+        themeToggle.textContent = stored === 'dark' ? '☀️' : '🌙';
+    }
+    themeToggle.addEventListener('click', () => {
+        const current = html.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('rbs-theme', next);
+        themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
+    });
+
+    // ========== MOBILE MENU ==========
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('open');
+        });
+    });
+
+    // ========== NAVBAR SCROLL SHADOW ==========
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 10);
+    }, { passive: true });
+
+    // ========== INTERSECTION OBSERVER (scroll animations) ==========
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                // Stagger siblings slightly
+                const delay = entry.target.dataset.delay || 0;
+                setTimeout(() => entry.target.classList.add('visible'), delay);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach((el, i) => {
+        // Add stagger delay for sibling cards
+        const parent = el.parentElement;
+        const siblings = parent.querySelectorAll('.fade-up');
+        if (siblings.length > 1) {
+            const idx = Array.from(siblings).indexOf(el);
+            el.dataset.delay = idx * 80;
+        }
+        observer.observe(el);
+    });
+</script>
+
+</body>
+</html>
